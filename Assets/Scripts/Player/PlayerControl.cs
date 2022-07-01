@@ -12,11 +12,14 @@ public class PlayerControl : MonoBehaviour
 
     private Animator _animator;    
     public Vector3 targetPosition;
+    private GridPosition _gridPosition;
     // Start is called before the first frame update
     void Start()
     {
         targetPosition=this.transform.position;
         _animator = GetComponentInChildren<Animator>();
+        _gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.SetUnitAtGridPostion(_gridPosition, this);
     }
 
     // Update is called once per frame
@@ -33,6 +36,13 @@ public class PlayerControl : MonoBehaviour
         else
         {
             _animator.SetBool("IsWalking", false);
+        }
+
+        GridPosition newGridpos = LevelGrid.Instance.GetGridPosition(transform.position);
+        if(newGridpos!=_gridPosition)
+        {
+            LevelGrid.Instance.UnitMovedGridPosition(this, newGridpos, _gridPosition);
+            _gridPosition=newGridpos; 
         }
     }
 
