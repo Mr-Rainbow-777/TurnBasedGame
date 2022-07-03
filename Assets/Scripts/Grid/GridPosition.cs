@@ -37,4 +37,12 @@ public struct GridPosition
     {
         return !(a == b);
     }
+
+    public static GridPosition operator +(GridPosition a, GridPosition b)
+    {
+        GridPosition x = new GridPosition();
+        x.x = a.x + b.x;
+        x.z = a.z + b.z;
+        return x;
+    }
 }

@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class UnitSelectVisual : MonoBehaviour
 {
-    [SerializeField] private PlayerControl unit;
+    [SerializeField] private Unit unit;
 
     private MeshRenderer _meshrender;
 
+    SpinAction spin;
     private void Awake()
     {
+
         _meshrender=GetComponent<MeshRenderer>();
     }
 

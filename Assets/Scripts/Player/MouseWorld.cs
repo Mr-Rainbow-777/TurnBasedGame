@@ -19,4 +19,9 @@ public class MouseWorld : MonoSingleton<MouseWorld>
         Physics.Raycast(ray, out raycastHit, int.MaxValue, MouseLayer);
         return raycastHit.point;
     }
+
+    public Vector3 GetPositon()
+    {
+        return this.transform.position;
+    }
 }
