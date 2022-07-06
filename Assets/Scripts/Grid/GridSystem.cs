@@ -1,28 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridSystem 
+public class GridSystem<TGridObject> 
 {
     private int height;
     private int width;
     private float cellSize;   
 
-    private GridObject[,] gridObjectArray;
+    private TGridObject[,] gridObjectArray;
 
-    public GridSystem(int height, int width, float cellSize)
+    public GridSystem(int height, int width, float cellSize,Func<GridSystem<TGridObject>,GridPosition,TGridObject> createGridObject)
     {
         this.height = height;
         this.width = width;
         this.cellSize = cellSize;
 
-        gridObjectArray = new GridObject[width, height];
+        gridObjectArray = new TGridObject[width, height];
         for (int x = 0; x < width; x++)
         {
             for (int z = 0; z < height; z++)
             {
                 GridPosition pos = new GridPosition(x, z);
-                gridObjectArray[x,z]=new GridObject(this, pos);
+                gridObjectArray[x,z]=createGridObject(this, pos);
             }
         }
     }
@@ -52,13 +53,13 @@ public class GridSystem
 
                 Transform debugTransform = GameObject.Instantiate(debugGridPrefab, GetWorldPos(gridPos), Quaternion.identity);
                 GridDebugObject gridObject= debugTransform.GetComponent<GridDebugObject>();
-                gridObject.SetGridObject(GetGridObject(gridPos));
+                gridObject.SetGridObject(GetGridObject(gridPos) as GridObject);
             }
         }
     }
 
 
-    public GridObject GetGridObject(GridPosition gridpos)
+    public TGridObject GetGridObject(GridPosition gridpos)
     {
         return gridObjectArray[gridpos.x, gridpos.z];
     }

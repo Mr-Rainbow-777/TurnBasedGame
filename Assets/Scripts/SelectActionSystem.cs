@@ -28,7 +28,10 @@ public class SelectActionSystem : MonoSingleton<SelectActionSystem>
         {
             return;
         }
-
+        if(!TurnSystem.Instance.isPlayerTurn())
+        {
+            return;
+        }
         if(EventSystem.current.IsPointerOverGameObject()) //防止在按键时执行相关行为
         {
             return;
@@ -57,6 +60,10 @@ public class SelectActionSystem : MonoSingleton<SelectActionSystem>
                         //Unit 已经被选中了
                         return false;
                     }
+                    if(unit.JudgeIsEnemy())
+                    {
+                        return false;
+                    }
                     SetSelectedUnit(unit);
                     return true;
                 }
@@ -69,7 +76,7 @@ public class SelectActionSystem : MonoSingleton<SelectActionSystem>
     private void SetSelectedUnit(Unit unit)
     {
         Selectedunit = unit;
-        SelectAction = unit.GetMoveAction();
+        SelectAction = unit.GetAction<MoveAction>();
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 
     }

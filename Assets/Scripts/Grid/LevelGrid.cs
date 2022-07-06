@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class LevelGrid : MonoSingleton<LevelGrid>
 {
     [SerializeField] private Transform gridDebugObjectPrefab;
 
-    private GridSystem gridSystem;
+    private GridSystem<GridObject> gridSystem;
+
+    public event EventHandler OnAnyUnitMovedGridPosition;
 
     private void Awake()
     {
-        gridSystem = new GridSystem(10, 10, 2f);
+        gridSystem = new GridSystem<GridObject>(10, 10, 2f,(GridSystem<GridObject> g,GridPosition gridPosition)=>
+        { 
+            return new GridObject(g, gridPosition);
+        });
         gridSystem.CreateGridObject(gridDebugObjectPrefab);
     }
 
@@ -36,6 +41,8 @@ public class LevelGrid : MonoSingleton<LevelGrid>
     {
         ClearUnitAtGridPostion(fromGridPostion,unit);
         AddUnitAtGridPostion(ToGridPosition,unit);
+
+        OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -48,5 +55,11 @@ public class LevelGrid : MonoSingleton<LevelGrid>
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPostion);
         return gridObject.HasAnyUnit();
+    }
+
+    public Unit GetUnitOnGridPostion(GridPosition gridPostion)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPostion);
+        return gridObject.GetUnit();
     }
 }

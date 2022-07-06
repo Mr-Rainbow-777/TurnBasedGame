@@ -42,4 +42,14 @@ public class UnitSelectVisual : MonoBehaviour
             _meshrender.enabled = false;
         }
     }
+
+    //private void OnDestroy()
+    //{
+    //    SelectActionSystem.Instance.OnSelectedUnitChanged -= OnSelectedVisual;
+    //}
+
+    private void OnDisable()
+    {
+        SelectActionSystem.Instance.OnSelectedUnitChanged -= OnSelectedVisual;
+    }
 }

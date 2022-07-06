@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class GridObject
 {
-    private GridSystem _gridSystem;
+    private GridSystem<GridObject> _gridSystem;
     private GridPosition _gridPosition;
     private List<Unit> unitlist;
-    public GridObject(GridSystem gridSystem, GridPosition gridPosition)
+    public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)
     {
         _gridSystem = gridSystem;
         _gridPosition = gridPosition;
@@ -44,5 +44,16 @@ public class GridObject
     public bool HasAnyUnit()
     {
         return unitlist.Count > 0;
+    }
+
+    public Unit GetUnit()
+    {
+        if(HasAnyUnit())
+        {
+            return unitlist[0];
+        }else
+        {
+            return null;
+        }
     }
 }

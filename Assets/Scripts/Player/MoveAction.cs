@@ -13,6 +13,9 @@ public class MoveAction : BaseAction
     
     private Animator _animator;
     public Vector3 targetPosition;
+
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
     protected override void Start()
     {
         base.Start();
@@ -35,17 +38,17 @@ public class MoveAction : BaseAction
         else
         {
             _animator.SetBool("IsWalking", false);
-            IsActive = false;
-            this.ActionComplete?.Invoke();
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            ActionComplete();
         }
         transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * RotateSpeed);
     }
 
     public override void TakeAction(GridPosition targetpostion,Action complete)
     {
-        this.ActionComplete = complete;
+        ActionStart(complete);
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(targetpostion);
-        IsActive = true;
+        OnStartMoving?.Invoke(this,EventArgs.Empty);
     }
 
     public override List<GridPosition> GetValidActionGridPostionList()
@@ -74,5 +77,15 @@ public class MoveAction : BaseAction
     public override string GetActionName()
     {
         return "Move";
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPostion)
+    {
+        int targetCountAtGridPos=unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPostion);
+        return new EnemyAIAction
+        {
+            gridPosition = gridPostion,
+            actionValue = targetCountAtGridPos *10,
+        };
     }
 }

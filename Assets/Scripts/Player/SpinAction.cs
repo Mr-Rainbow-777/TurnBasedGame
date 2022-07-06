@@ -22,16 +22,14 @@ public class SpinAction : BaseAction
         totalSpinAmount += spinAddAmount;
         if(totalSpinAmount>=360f)
         {
-            this.ActionComplete?.Invoke();
-            IsActive = false;
+            ActionComplete();
         }
     }
 
     public override void TakeAction(GridPosition gridPositon, Action spinfinish)
     {
-        this.ActionComplete = spinfinish;
-        IsActive = true;
         totalSpinAmount = 0;
+        ActionStart(spinfinish);
     }
 
     public override string GetActionName()
@@ -53,5 +51,14 @@ public class SpinAction : BaseAction
     public override int GetActionPointCost()
     {
         return 2;
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPostion)
+    {
+        return new EnemyAIAction
+        {
+            gridPosition = gridPostion,
+            actionValue = 0,
+        };
     }
 }
