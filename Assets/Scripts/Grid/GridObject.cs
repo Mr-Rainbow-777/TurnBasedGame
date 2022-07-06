@@ -22,7 +22,7 @@ public class GridObject
         {
             unitstring += unit + "\n";
         }
-        return string.Format("x:{0} y:{1}\n{2}", _gridPosition.x, _gridPosition.z,unitstring);
+        return _gridPosition.ToString() + "\n" + unitstring;
     }
 
 

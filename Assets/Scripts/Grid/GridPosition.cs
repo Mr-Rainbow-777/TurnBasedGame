@@ -45,4 +45,18 @@ public struct GridPosition
         x.z = a.z + b.z;
         return x;
     }
+
+    public static GridPosition operator -(GridPosition a, GridPosition b)
+    {
+        GridPosition x = new GridPosition();
+        x.x = a.x - b.x;
+        x.z = a.z - b.z;
+        return x;
+    }
+
+
+    public override string ToString()
+    {
+        return string.Format("X:{0} Z:{1}", this.x, this.z);
+    }
 }

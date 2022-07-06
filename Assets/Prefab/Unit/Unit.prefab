@@ -374,7 +374,7 @@ MonoBehaviour:
   MoveSpeed: 3
   RotateSpeed: 10
   MaxDistance: 4
-  targetPosition: {x: 0, y: 0, z: 0}
+  PositionList: []
 --- !u!114 &3005546913508658167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c49867d5a1ec54fa8203e32d5d9242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObastaclesLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &1135674183
 MonoBehaviour:
   m_ObjectHideFlags: 0

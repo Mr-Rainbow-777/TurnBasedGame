@@ -10,6 +10,11 @@ public class LevelGrid : MonoSingleton<LevelGrid>
 
     public event EventHandler OnAnyUnitMovedGridPosition;
 
+    [SerializeField] private int width;
+    [SerializeField]private int Height;
+    [SerializeField] private float cellSize;
+
+
     private void Awake()
     {
         gridSystem = new GridSystem<GridObject>(10, 10, 2f,(GridSystem<GridObject> g,GridPosition gridPosition)=>
@@ -19,6 +24,10 @@ public class LevelGrid : MonoSingleton<LevelGrid>
         gridSystem.CreateGridObject(gridDebugObjectPrefab);
     }
 
+    private void Start()
+    {
+        PathFinding.Instance.SetUp(width, Height, cellSize);
+    }
     public void AddUnitAtGridPostion(GridPosition gridPosition,Unit unit)
     {
         GridObject gridobject=gridSystem.GetGridObject(gridPosition);
@@ -48,6 +57,7 @@ public class LevelGrid : MonoSingleton<LevelGrid>
 
     public GridPosition GetGridPosition(Vector3 worldpos)=>gridSystem.GetGridPos(worldpos);
     public Vector3 GetWorldPosition(GridPosition gridPostion) => gridSystem.GetWorldPos(gridPostion);
+
     public bool IsValidGridPostion(GridPosition gridpositon) => gridSystem.IsValidGridPostion(gridpositon);
     public int GetWidth() => gridSystem.GetWidth();
     public int GetHeight() => gridSystem.GetHeight();

@@ -7,7 +7,7 @@ public class ShootAction : BaseAction
 {
 
     public event EventHandler<OnShootEventArgs> OnShoot;
-
+    [SerializeField] private LayerMask ObastaclesLayerMask;
 
     public class OnShootEventArgs:EventArgs
     {
@@ -128,6 +128,17 @@ public class ShootAction : BaseAction
                         continue;
                     }
 
+                    float unitShoulderHeight = 1.7f;
+                    Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                    Vector3 shootDir = (targetunit.GetWorldPos() - unitWorldPosition).normalized;
+
+                    if(Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight,
+                        shootDir,
+                        Vector3.Distance(unitWorldPosition, targetunit.GetWorldPos()),
+                        ObastaclesLayerMask))
+                    {
+                        continue;
+                    }
                     validGridPostionList.Add(validPostion);
                 }
             }
